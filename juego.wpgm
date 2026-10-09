@@ -1,0 +1,17 @@
+import wollok.game.*
+import personaje.*
+
+program endlessRunner {
+	game.title("Endless Runner")
+	game.height(10)
+	game.width(10)
+	
+	// Keyboard events
+	personaje1.inicializar()
+
+	// Visuals
+	game.addVisual(personaje1)
+
+
+	game.start()
+}
