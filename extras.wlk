@@ -43,8 +43,12 @@ object menu {
 
 // Textos del menu
 class Texto {
-    var property position
+    const position
     var property text
+
+    method position() {
+        return position
+    }
 }
 
 const titulo = new Texto(

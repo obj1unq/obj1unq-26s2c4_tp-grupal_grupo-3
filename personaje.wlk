@@ -7,8 +7,8 @@ object corriendo {
 }
 
 object saltando {
-    method imagenes(personaje) = personaje.imagenesSaltando()
-    method alTerminar(personaje) { personaje.correr() }
+   method imagenes(personaje) = personaje.imagenesSaltando()
+   method alTerminar(personaje) { personaje.quedarEnUltimoFrame() }
 }
 
 object deslizando {
@@ -36,6 +36,7 @@ class Personaje {
         keyboard.w().onPressDo({self.saltar()})
         keyboard.a().onPressDo({self.deslizar()})
         game.onTick(80, "animacion", {self.avanzarFrame()})
+        game.onTick(500, "gravedad", { self.caer() })
     }
 
     method imagenesActuales() = estado.imagenes(self)
@@ -47,12 +48,23 @@ class Personaje {
     }
 
     method saltar() {
+        position = position.up(1)
         self.cambiarEstado(saltando)
     }
-
+    
     method deslizar() {
-        self.cambiarEstado(deslizando)
+        if (not self.estaEnElAire()) self.cambiarEstado(deslizando)
     }
+
+    method caer() {
+        if (self.estaEnElAire()) {
+            position = position.down(1)
+        } else {
+            self.correr()
+        }
+    }
+
+    method estaEnElAire() = position.y() > 0
 
     method cambiarEstado(nuevoEstado) {
         estado = nuevoEstado
@@ -62,6 +74,10 @@ class Personaje {
     method avanzarFrame() {
         frame = (frame + 1) % self.imagenesActuales().size()
         if (frame == 0) estado.alTerminar(self)
+    }
+
+    method quedarEnUltimoFrame() {
+        frame = self.imagenesActuales().size() - 1
     }
 }
 
