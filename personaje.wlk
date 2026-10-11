@@ -66,7 +66,19 @@ class Personaje {
 }
 
 const personaje1 = new Personaje(
-    imagenesCorriendo = secuencia.de("personaje", "corriendo", 10),
-    imagenesSaltando = secuencia.de("personaje", "saltando", 10),
-    imagenesDeslizando = secuencia.de("personaje", "deslizando", 10)
+    imagenesCorriendo = secuencia.de("personaje-1", "corriendo", 10),
+    imagenesSaltando = secuencia.de("personaje-1", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-1", "deslizando", 10)
+)
+
+const personaje2 = new Personaje(
+    imagenesCorriendo = secuencia.de("personaje-2", "corriendo", 8),
+    imagenesSaltando = secuencia.de("personaje-2", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-2", "deslizando", 5)
+)   
+
+const personaje3 = new Personaje(
+    imagenesCorriendo = secuencia.de("personaje-3", "corriendo", 8),
+    imagenesSaltando = secuencia.de("personaje-3", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-3", "deslizando", 10)
 )

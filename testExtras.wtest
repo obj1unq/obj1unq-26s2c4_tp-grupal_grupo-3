@@ -1,0 +1,31 @@
+import extras.*
+import personaje.*
+
+describe "Menu" {
+
+  test "Arranca con el personaje 1 elegido" {
+    assert.equals(personaje1, menu.elegido())
+  }
+
+  test "Selecciona al personaje elegido" {
+    menu.elegir(1)
+    assert.equals(personaje2, menu.elegido())
+  }
+
+  test "Con el siguiente pasa al personaje 2" {
+    menu.elegirSiguiente()
+    assert.equals(personaje2, menu.elegido())
+  }
+
+  test "El anterior al primero es el ultimo" {
+    menu.elegirAnterior()
+    assert.equals(personaje3, menu.elegido())
+  }
+
+  test "El siguiente al ultimo es el primero" {
+    menu.elegir(2)
+    menu.elegirSiguiente()
+    assert.equals(personaje1, menu.elegido())
+  }
+
+}
