@@ -1,0 +1,100 @@
+import wollok.game.*
+
+// Movimientos
+object corriendo {
+    method imagenes(personaje) = personaje.imagenesCorriendo()
+    method alTerminar(personaje) { }
+}
+
+object saltando {
+   method imagenes(personaje) = personaje.imagenesSaltando()
+   method alTerminar(personaje) { personaje.quedarEnUltimoFrame() }
+}
+
+object deslizando {
+    method imagenes(personaje) = personaje.imagenesDeslizando()
+    method alTerminar(personaje) { personaje.correr() }
+}
+
+
+// Arma la lista "carpeta/nombre_0.png" ... "carpeta/nombre_(cantidad-1).png"
+object secuencia {
+    method de(carpeta, nombre, cantidad) = (0 .. cantidad - 1).map({ n => carpeta + "/" + nombre + "_" + n + ".png" })
+}
+
+
+// Personaje
+class Personaje {
+    const property imagenesCorriendo
+    const property imagenesSaltando
+    const property imagenesDeslizando
+    var property position = game.at(0, 0)
+    var estado = corriendo
+    var frame = 0
+
+    method inicializar() {
+        keyboard.w().onPressDo({self.saltar()})
+        keyboard.a().onPressDo({self.deslizar()})
+        game.onTick(80, "animacion", {self.avanzarFrame()})
+        game.onTick(500, "gravedad", { self.caer() })
+    }
+
+    method imagenesActuales() = estado.imagenes(self)
+
+    method image() = self.imagenesActuales().get(frame)
+
+    method correr() {
+        self.cambiarEstado(corriendo)
+    }
+
+    method saltar() {
+        position = position.up(1)
+        self.cambiarEstado(saltando)
+    }
+    
+    method deslizar() {
+        if (not self.estaEnElAire()) self.cambiarEstado(deslizando)
+    }
+
+    method caer() {
+        if (self.estaEnElAire()) {
+            position = position.down(1)
+        } else {
+            self.correr()
+        }
+    }
+
+    method estaEnElAire() = position.y() > 0
+
+    method cambiarEstado(nuevoEstado) {
+        estado = nuevoEstado
+        frame = 0
+    }
+
+    method avanzarFrame() {
+        frame = (frame + 1) % self.imagenesActuales().size()
+        if (frame == 0) estado.alTerminar(self)
+    }
+
+    method quedarEnUltimoFrame() {
+        frame = self.imagenesActuales().size() - 1
+    }
+}
+
+const personaje1 = new Personaje(
+    imagenesCorriendo = secuencia.de("personaje-1", "corriendo", 10),
+    imagenesSaltando = secuencia.de("personaje-1", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-1", "deslizando", 10)
+)
+
+const personaje2 = new Personaje(
+    imagenesCorriendo = secuencia.de("personaje-2", "corriendo", 8),
+    imagenesSaltando = secuencia.de("personaje-2", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-2", "deslizando", 5)
+)   
+
+const personaje3 = new Personaje(
+    imagenesCorriendo = secuencia.de("personaje-3", "corriendo", 8),
+    imagenesSaltando = secuencia.de("personaje-3", "saltando", 10),
+    imagenesDeslizando = secuencia.de("personaje-3", "deslizando", 10)
+)

@@ -1,0 +1,12 @@
+import wollok.game.*
+import extras.*
+
+program endlessRunner {
+	game.title("Endless Runner")
+	game.height(10)
+	game.width(10)
+
+	menu.mostrar()
+
+	game.start()
+}
