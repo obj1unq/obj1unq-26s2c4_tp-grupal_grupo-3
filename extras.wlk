@@ -15,9 +15,9 @@ object menu {
         self.controles()
     }
 
-    // Deja a los personajes en fila, en las columnas 2, 4 y 6
+    // Deja a los personajes en fila, en las columnas 4, 6 y 8
     method ubicarPersonajes() {
-        (0 .. personajes.size() - 1).forEach({ n => personajes.get(n).position(game.at(2 + n * 2, 5)) })
+        (0 .. personajes.size() - 1).forEach({ n => personajes.get(n).position(game.at(4 + n * 2, 3)) })
     }
 
     method controles() {
@@ -52,17 +52,17 @@ class Texto {
 }
 
 const titulo = new Texto(
-    position = game.at(4, 8),
+    position = game.at(6, 4),
     text = "ENDLESS RUNNER"
 )
 
 const ayudaElegir = new Texto(
-    position = game.at(4, 3),
+    position = game.at(6, 1),
     text = "Flechas (<- ->): elegir personaje"
 )
 
 const ayudaJugar = new Texto(
-    position = game.at(4, 2),
+    position = game.at(6, 0),
     text = "ENTER: jugar"
 )
 
