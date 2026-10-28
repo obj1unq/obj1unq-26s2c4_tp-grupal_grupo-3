@@ -1,36 +1,29 @@
 import wollok.game.*
+import animacion.*
 
 // Movimientos
 object corriendo {
-    method imagenes(personaje) = personaje.imagenesCorriendo()
+    method animacion(personaje) = personaje.animacionCorriendo()
     method alTerminar(personaje) { }
 }
 
 object saltando {
-   method imagenes(personaje) = personaje.imagenesSaltando()
+   method animacion(personaje) = personaje.animacionSaltando()
    method alTerminar(personaje) { personaje.quedarEnUltimoFrame() }
 }
 
 object deslizando {
-    method imagenes(personaje) = personaje.imagenesDeslizando()
+    method animacion(personaje) = personaje.animacionDeslizando()
     method alTerminar(personaje) { personaje.correr() }
 }
 
-
-// Arma la lista "carpeta/nombre_0.png" ... "carpeta/nombre_(cantidad-1).png"
-object secuencia {
-    method de(carpeta, nombre, cantidad) = (0 .. cantidad - 1).map({ n => carpeta + "/" + nombre + "_" + n + ".png" })
-}
-
-
 // Personaje
 class Personaje {
-    const property imagenesCorriendo
-    const property imagenesSaltando
-    const property imagenesDeslizando
+    const property animacionCorriendo
+    const property animacionSaltando
+    const property animacionDeslizando
     var property position = game.at(0, 0)
     var estado = corriendo
-    var frame = 0
 
     method inicializar() {
         keyboard.w().onPressDo({self.saltar()})
@@ -39,9 +32,9 @@ class Personaje {
         game.onTick(500, "gravedad", { self.caer() })
     }
 
-    method imagenesActuales() = estado.imagenes(self)
+    method animacionActual() = estado.animacion(self)
 
-    method image() = self.imagenesActuales().get(frame)
+    method image() = self.animacionActual().imagen()
 
     method correr() {
         self.cambiarEstado(corriendo)
@@ -68,33 +61,33 @@ class Personaje {
 
     method cambiarEstado(nuevoEstado) {
         estado = nuevoEstado
-        frame = 0
+        self.animacionActual().reiniciar()
     }
 
     method avanzarFrame() {
-        frame = (frame + 1) % self.imagenesActuales().size()
-        if (frame == 0) estado.alTerminar(self)
+        self.animacionActual().avanzar()
+        if (self.animacionActual().terminoUnaVuelta()) estado.alTerminar(self)
     }
 
     method quedarEnUltimoFrame() {
-        frame = self.imagenesActuales().size() - 1
+        self.animacionActual().irAlUltimo()
     }
 }
 
 const personaje1 = new Personaje(
-    imagenesCorriendo = secuencia.de("personaje-1", "corriendo", 10),
-    imagenesSaltando = secuencia.de("personaje-1", "saltando", 10),
-    imagenesDeslizando = secuencia.de("personaje-1", "deslizando", 10)
+    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-1", "corriendo", 10)),
+    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-1", "saltando", 10)),
+    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-1", "deslizando", 10))
 )
 
 const personaje2 = new Personaje(
-    imagenesCorriendo = secuencia.de("personaje-2", "corriendo", 8),
-    imagenesSaltando = secuencia.de("personaje-2", "saltando", 10),
-    imagenesDeslizando = secuencia.de("personaje-2", "deslizando", 5)
+    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-2", "corriendo", 8)),
+    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-2", "saltando", 10)),
+    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-2", "deslizando", 5))
 )   
 
 const personaje3 = new Personaje(
-    imagenesCorriendo = secuencia.de("personaje-3", "corriendo", 8),
-    imagenesSaltando = secuencia.de("personaje-3", "saltando", 10),
-    imagenesDeslizando = secuencia.de("personaje-3", "deslizando", 10)
+    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-3", "corriendo", 8)),
+    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-3", "saltando", 10)),
+    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-3", "deslizando", 10))
 )
