@@ -22,7 +22,11 @@ class Personaje {
     const property animacionCorriendo
     const property animacionSaltando
     const property animacionDeslizando
-    var property position = game.at(0, 0)
+    var property position = game.at(0, 1)
+    const posicionEnMenu 
+    const maximoDeSaltos = 2
+    var saltosRealizados = 0
+
     var estado = corriendo
 
     method inicializar() {
@@ -41,8 +45,7 @@ class Personaje {
     }
 
     method saltar() {
-        position = position.up(1)
-        self.cambiarEstado(saltando)
+        if (self.puedeSaltar()) self.impulsarse()
     }
     
     method deslizar() {
@@ -53,11 +56,12 @@ class Personaje {
         if (self.estaEnElAire()) {
             position = position.down(1)
         } else {
+            saltosRealizados = 0
             self.correr()
         }
     }
 
-    method estaEnElAire() = position.y() > 0
+    method estaEnElAire() = position.y() > 1
 
     method cambiarEstado(nuevoEstado) {
         estado = nuevoEstado
@@ -72,22 +76,38 @@ class Personaje {
     method quedarEnUltimoFrame() {
         self.animacionActual().irAlUltimo()
     }
+
+    method mostrarEnMenu() {
+        position = posicionEnMenu
+        game.addVisual(self)
+    }
+
+    method puedeSaltar() = saltosRealizados < maximoDeSaltos
+
+    method impulsarse() {
+        position = position.up(1)
+        saltosRealizados = saltosRealizados + 1
+        self.cambiarEstado(saltando)
+    }
 }
 
 const personaje1 = new Personaje(
-    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-1", "corriendo", 10)),
-    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-1", "saltando", 10)),
-    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-1", "deslizando", 10))
+    animacionCorriendo = new Animacion(carpeta = "personaje-1", nombre = "corriendo", cantidad = 10),
+    animacionSaltando = new Animacion(carpeta = "personaje-1", nombre = "saltando", cantidad = 10),
+    animacionDeslizando = new Animacion(carpeta = "personaje-1", nombre = "deslizando", cantidad = 10),
+    posicionEnMenu = game.at(4, 3)
 )
 
 const personaje2 = new Personaje(
-    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-2", "corriendo", 8)),
-    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-2", "saltando", 10)),
-    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-2", "deslizando", 5))
+    animacionCorriendo = new Animacion(carpeta = "personaje-2", nombre = "corriendo", cantidad = 8),
+    animacionSaltando = new Animacion(carpeta = "personaje-2", nombre = "saltando", cantidad = 10),
+    animacionDeslizando = new Animacion(carpeta = "personaje-2", nombre = "deslizando", cantidad = 5),
+    posicionEnMenu = game.at(6, 3)
 )   
 
 const personaje3 = new Personaje(
-    animacionCorriendo = new Animacion(imagenes = secuencia.de("personaje-3", "corriendo", 8)),
-    animacionSaltando = new Animacion(imagenes = secuencia.de("personaje-3", "saltando", 10)),
-    animacionDeslizando = new Animacion(imagenes = secuencia.de("personaje-3", "deslizando", 10))
+    animacionCorriendo = new Animacion(carpeta = "personaje-3", nombre = "corriendo", cantidad = 8),
+    animacionSaltando = new Animacion(carpeta = "personaje-3", nombre = "saltando", cantidad = 10),
+    animacionDeslizando = new Animacion(carpeta = "personaje-3", nombre = "deslizando", cantidad = 10),
+    posicionEnMenu = game.at(8, 3)
 )
