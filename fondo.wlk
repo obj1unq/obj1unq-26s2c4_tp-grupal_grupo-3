@@ -14,6 +14,7 @@ object fondo {
 
     method avanzarFrame() {
         animacion.avanzar()
+        if (animacion.terminoUnaVuelta()) animacion.alTerminar(self)
     }
 
     method iniciar(animacionInicial) {

@@ -20,4 +20,14 @@ class Animacion {
     method irAlUltimo() {
         frame = cantidad - 1
     }
+
+    method alTerminar(unFondo) { }
+}
+
+class Transicion inherits Animacion {
+    const property destino
+
+    override method alTerminar(unFondo) {
+        unFondo.mostrar(destino.animacionFondo())
+    }
 }
