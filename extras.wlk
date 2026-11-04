@@ -1,4 +1,5 @@
-import personaje.*
+import personajes.*
+import partida.*
 import wollok.game.*
 
 object menu {
@@ -6,18 +7,12 @@ object menu {
     var numeroElegido = 0
 
     method mostrar() {
-        self.ubicarPersonajes()
-        personajes.forEach({ personaje => game.addVisual(personaje) })
+        personajes.forEach({ personaje => personaje.mostrarEnMenu() })
         game.addVisual(titulo)
         game.addVisual(ayudaElegir)
         game.addVisual(ayudaJugar)
         game.addVisual(cursor)
         self.controles()
-    }
-
-    // Deja a los personajes en fila, en las columnas 4, 6 y 8
-    method ubicarPersonajes() {
-        (0 .. personajes.size() - 1).forEach({ n => personajes.get(n).position(game.at(4 + n * 2, 3)) })
     }
 
     method controles() {
@@ -73,13 +68,10 @@ object cursor {
 }
 
 object juego {
-    const niveles = []
-    var puntaje = 0
+    var property partida = null
 
-    method iniciar(personaje) {
-        game.clear()
-        personaje.position(game.at(0, 0))
-        game.addVisual(personaje)
-        personaje.inicializar()
+    method iniciar(personajeElegido) {
+        partida = new Partida(personaje = personajeElegido)
+        partida.iniciar()
     }
 }

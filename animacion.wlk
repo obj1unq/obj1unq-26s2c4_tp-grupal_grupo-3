@@ -1,18 +1,14 @@
 
-// Arma la lista "carpeta/nombre_0.png" ... "carpeta/nombre_(cantidad-1).png"
-object secuencia {
-    method de(carpeta, nombre, cantidad) = (0 .. cantidad - 1).map({ n => carpeta + "/" + nombre + "_" + n + ".png" })
-}
-
-
 class Animacion {
-    const imagenes
+    const carpeta
+    const nombre
+    const cantidad
     var frame = 0
 
-    method imagen() = imagenes.get(frame)
+    method imagen() = carpeta + "/" + nombre + "_" + frame + ".png"
 
     method avanzar() {
-        frame = (frame + 1) % imagenes.size()
+        frame = (frame + 1) % cantidad
     }
 
     method terminoUnaVuelta() = frame == 0
@@ -22,7 +18,16 @@ class Animacion {
     }
 
     method irAlUltimo() {
-        frame = imagenes.size() - 1
+        frame = cantidad - 1
     }
 
+    method alTerminar(unFondo) { }
+}
+
+class Transicion inherits Animacion {
+    const property destino
+
+    override method alTerminar(unFondo) {
+        unFondo.mostrar(destino.animacionFondo())
+    }
 }
