@@ -3,22 +3,33 @@ import wollok.game.*
 
 class Obstaculo {
     
-    var property posicionObs = game.at(12, 0)
+    var property posicionObs 
 
   
     method image()
+
+    method spawnear() {
+        game.addVisual(self)
+        posicionObs = game.at(12, 0)
+    }
 
     method yaAtravesoLaPantalla() {
         return posicionObs.x() == 0
     }
     
-   
+    method salirDePantalla() {
+        game.removeVisual(self)
+    }
+
+    method chocar(unPersonaje) {
+        unPersonaje.perder()
+    }
 
     method colisionoCon(unPersonaje) {
         return unPersonaje.position() == posicionObs
     } 
 }
-
+ const spawnearObstaculo = game.tick(2000, "spawnearObstaculo", {Obstaculo.posicionObs().left(1)} )
  const moverObstaculo = game.tick(200, "moverObstaculo", {Obstaculo.posicionObs().left(1)} )
 
 class ObstaculoTipo1 inherits Obstaculo {
