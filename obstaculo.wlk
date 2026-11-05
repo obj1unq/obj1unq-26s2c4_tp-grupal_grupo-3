@@ -29,7 +29,7 @@ class Obstaculo {
         return unPersonaje.position() == posicionObs
     } 
 }
- const spawnearObstaculo = game.tick(2000, "spawnearObstaculo", {Obstaculo.posicionObs().left(1)} )
+ const spawnearObstaculo = game.tick(2000, "spawnearObstaculo", {//unYipodeObstaculo.posicionObs().left(1)} )
  const moverObstaculo = game.tick(200, "moverObstaculo", {Obstaculo.posicionObs().left(1)} )
 
 class ObstaculoTipo1 inherits Obstaculo {
