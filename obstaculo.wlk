@@ -57,12 +57,6 @@ class Obstaculo {
         posicionObs = game.at(12, 0)
     }
 
-    
-    
-    method salirDePantalla() {
-        game.removeVisual(self)
-    }
-
 
     method colisionoCon(unPersonaje) {
         return unPersonaje.position() == posicionObs
