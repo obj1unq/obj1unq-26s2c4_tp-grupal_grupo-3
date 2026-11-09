@@ -1,12 +1,56 @@
 import wollok.game.*
 
 
+object generadorDeObstaculos {
+    const obstaculos = []
+    
+    method iniciar() {
+        self.programarSiguienteObstaculo()
+        game.onTick(50, "moverObstaculos", {
+            self.moverYLimpiar()
+        })
+    }
+
+    method programarSiguienteObstaculo() {
+        const tiempoAleatorio = (800..2500).anyOne()
+        game.schedule(tiempoAleatorio, {
+            self.crearObstaculo()
+            self.programarSiguienteObstaculo() 
+        })
+    }
+
+    method crearObstaculo() {
+        const nuevo = new ObstaculoTipo1(posicionObs = game.at(game.width(), 1))
+        obstaculos.add(nuevo)
+        game.addVisual(nuevo)
+    }
+
+    method moverYLimpiar() {
+        obstaculos.forEach({ obstaculo => obstaculo.desplazar() })
+        const fueraDePantalla = obstaculos.filter({ obstaculo => obstaculo.salioDePantalla() })
+        fueraDePantalla.forEach({ obstaculo =>
+            game.removeVisual(obstaculo)
+            obstaculos.remove(obstaculo)
+        })
+    }
+
+    method detener() {
+        game.removeTickEvent("moverObstaculos")
+    }
+}
+
 class Obstaculo {
     
     var property posicionObs 
 
   
     method image()
+
+    method desplazar() {
+        posicionObs = posicionObs.left(1)
+    }
+
+    method salioDePantalla() = posicionObs.x() < 0
 
     method spawnear() {
         game.addVisual(self)
@@ -29,8 +73,7 @@ class Obstaculo {
         return unPersonaje.position() == posicionObs
     } 
 }
- const spawnearObstaculo = game.tick(2000, "spawnearObstaculo", {//unYipodeObstaculo.posicionObs().left(1)} )
- const moverObstaculo = game.tick(200, "moverObstaculo", {Obstaculo.posicionObs().left(1)} )
+
 
 class ObstaculoTipo1 inherits Obstaculo {
     override method image() {
@@ -49,3 +92,5 @@ class ObstaculoTipo3 inherits Obstaculo {
         return ["DeadBush.png", "TombStone (1).png", "Skeleton.png", "TombStone (2).png"].anyOne()
     }
 }
+
+
