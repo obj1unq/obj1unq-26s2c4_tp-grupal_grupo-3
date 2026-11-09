@@ -5,17 +5,17 @@ object generadorDeObstaculos {
     const obstaculos = []
     
     method iniciar() {
-        self.programarSiguienteObstaculo()
+        self.siguienteObstaculo()
         game.onTick(50, "moverObstaculos", {
             self.moverYLimpiar()
         })
     }
 
-    method programarSiguienteObstaculo() {
+    method siguienteObstaculo() {
         const tiempoAleatorio = (800..2500).anyOne()
         game.schedule(tiempoAleatorio, {
             self.crearObstaculo()
-            self.programarSiguienteObstaculo() 
+            self.siguienteObstaculo() 
         })
     }
 
