@@ -25,9 +25,9 @@ class Animacion {
 }
 
 class Transicion inherits Animacion {
-    const property destino
+    const property siguienteNivel
 
     override method alTerminar(unFondo) {
-        unFondo.mostrar(destino.animacionFondo())
+        unFondo.mostrar(siguienteNivel.animacionFondo())
     }
 }

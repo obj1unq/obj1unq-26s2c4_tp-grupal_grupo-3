@@ -1,5 +1,5 @@
 import wollok.game.*
-import extras.*
+import menu.*
 
 program endlessRunner {
 	game.title("Endless Runner")

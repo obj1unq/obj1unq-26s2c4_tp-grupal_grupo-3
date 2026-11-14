@@ -4,14 +4,15 @@ import wollok.game.*
 
 class Partida {
     const personaje
+    const property fondoPartida = fondo
     var puntos = 0
     var nivel = nivel1
-
+   
     method puntos() = puntos
 
     method iniciar() {
         game.clear()
-        fondo.iniciar(nivel.animacionFondo())
+        fondoPartida.iniciar(nivel.animacionFondo())
         personaje.position(game.at(0, 1))
         game.addVisual(personaje)
         personaje.inicializar()
