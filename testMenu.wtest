@@ -1,4 +1,4 @@
-import extras.*
+import menu.*
 import personajes.*
 
 describe "Menu" {
