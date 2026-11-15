@@ -1,10 +1,11 @@
 import fondo.*
-import niveles.*
+import nivel.*
+import obstaculo.*
 import wollok.game.*
 
 class Partida {
     const personaje
-    const property fondoPartida = fondo
+    const fondoPartida = fondo
     var puntos = 0
     var nivel = nivel1
    
@@ -16,6 +17,7 @@ class Partida {
         personaje.position(game.at(0, 1))
         game.addVisual(personaje)
         personaje.inicializar()
+        generadorDeObstaculos.iniciar({nivel.imagenesObstaculos().anyOne()})
         // TEMPORAL PARA TESTEAR FONDOS
         keyboard.n().onPressDo({ self.pasarDeNivel() })
     }
@@ -26,6 +28,10 @@ class Partida {
 
     method nivel(nuevoNivel) {
         nivel = nuevoNivel
+    }
+
+    method mostrarTransicion(animacionTransicion) {
+        fondoPartida.mostrar(animacionTransicion)
     }
 
     method pasarDeNivel() {

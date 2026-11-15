@@ -1,5 +1,5 @@
 import partida.*
-import personajes.*
+import personaje.*
 describe "Partida" {
   const partida = new Partida(personaje = personaje1)
 

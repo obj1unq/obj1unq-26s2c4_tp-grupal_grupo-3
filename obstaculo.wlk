@@ -1,12 +1,14 @@
 import wollok.game.*
-
+import nivel.*
 
 object generadorDeObstaculos {
     const obstaculos = []
+    var proveedorImagenes = null
     
-    method iniciar() {
+    method iniciar(imagenesObstaculos) {
+        proveedorImagenes = imagenesObstaculos
         self.siguienteObstaculo()
-        game.onTick(50, "moverObstaculos", {
+        game.onTick(300, "moverObstaculos", {
             self.moverYLimpiar()
         })
     }
@@ -20,7 +22,7 @@ object generadorDeObstaculos {
     }
 
     method crearObstaculo() {
-        const nuevo = new ObstaculoTipo1(posicionObs = game.at(game.width(), 1))
+        const nuevo = new Obstaculo(position = game.at(game.width(), 1), image = proveedorImagenes.apply())
         obstaculos.add(nuevo)
         game.addVisual(nuevo)
     }
@@ -41,45 +43,24 @@ object generadorDeObstaculos {
 
 class Obstaculo {
     
-    var property posicionObs 
-
-  
-    method image()
+    var property position 
+    var property image
 
     method desplazar() {
-        posicionObs = posicionObs.left(1)
+        position = self.position().left(1)
     }
 
-    method salioDePantalla() = posicionObs.x() < 0
+    method salioDePantalla() = self.position().x() < 0
 
     method spawnear() {
         game.addVisual(self)
-        posicionObs = game.at(12, 0)
+        position = game.at(12, 0)
     }
 
-
     method colisionoCon(unPersonaje) {
-        return unPersonaje.position() == posicionObs
+        return unPersonaje.position() == self.position()
     } 
 }
 
-
-class ObstaculoTipo1 inherits Obstaculo {
-    override method image() {
-        return ["Stone.png", "Crate.png", "Mushroom_1.png", "Bush (3).png"].anyOne()
-    }
-}
-
-class ObstaculoTipo2 inherits Obstaculo {
-    override method image() {
-        return ["Stone (2).png", "Cactus (1).png", "Skeleton.png", "Cactus (3).png"].anyOne()
-    }
-}
-
-class ObstaculoTipo3 inherits Obstaculo {
-    override method image() {
-        return ["DeadBush.png", "TombStone (1).png", "Skeleton.png", "TombStone (2).png"].anyOne()
-    }
-}
 
 
