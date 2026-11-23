@@ -1,12 +1,17 @@
 import wollok.game.*
-import nivel.*
 
 object generadorDeObstaculos {
     const obstaculos = []
-    var proveedorImagenes = null
-    
-    method iniciar(imagenesObstaculos) {
-        proveedorImagenes = imagenesObstaculos
+    var proveedorImagenesTerrestres = null
+    var proveedorImagenesAereos = null
+    var alEsquivar = null
+    var activado = false
+
+    method iniciar(imagenesTerrestres, imagenesAereos, accionAlEsquivar) {
+        proveedorImagenesTerrestres = imagenesTerrestres
+        proveedorImagenesAereos = imagenesAereos
+        alEsquivar = accionAlEsquivar
+        self.activar()
         self.siguienteObstaculo()
         game.onTick(300, "moverObstaculos", {
             self.moverYLimpiar()
@@ -16,15 +21,41 @@ object generadorDeObstaculos {
     method siguienteObstaculo() {
         const tiempoAleatorio = (800..2500).anyOne()
         game.schedule(tiempoAleatorio, {
-            self.crearObstaculo()
-            self.siguienteObstaculo() 
+           if (activado) { 
+                self.crearObstaculo()
+           } 
+           self.siguienteObstaculo()
         })
     }
 
     method crearObstaculo() {
-        const nuevo = new Obstaculo(position = game.at(game.width(), 1), image = proveedorImagenes.apply())
-        obstaculos.add(nuevo)
-        game.addVisual(nuevo)
+        // Para crear mas terrestres que aereos
+        const bloqueCreador = [
+            {self.crearTerrestre()}, 
+            {self.crearTerrestre()}, 
+            {self.crearTerrestre()}, 
+            {self.crearAereo()}
+        ]
+        bloqueCreador.anyOne().apply()
+    }
+
+    method crearTerrestre() {
+        self.agregar(new ObstaculoTerrestre(
+            position = game.at(game.width(), 1),
+            image = proveedorImagenesTerrestres.apply()
+        ))
+    }
+
+    method crearAereo() {
+        self.agregar(new ObstaculoAereo(
+            position = game.at(game.width(), 2),
+            image = proveedorImagenesAereos.apply()
+        ))
+    }
+
+    method agregar(obstaculo) {
+        obstaculos.add(obstaculo)
+        game.addVisual(obstaculo)
     }
 
     method moverYLimpiar() {
@@ -33,18 +64,24 @@ object generadorDeObstaculos {
         fueraDePantalla.forEach({ obstaculo =>
             game.removeVisual(obstaculo)
             obstaculos.remove(obstaculo)
+            if ( not obstaculo.colisionado()) { alEsquivar.apply(obstaculo.puntosQueAporta()) }
+            
         })
     }
 
+    method activar () {
+        activado = true
+    }
+
     method detener() {
-        game.removeTickEvent("moverObstaculos")
+        activado = false
     }
 }
 
 class Obstaculo {
-    
     var property position 
-    var property image
+    const property image
+    var colisionado = false
 
     method desplazar() {
         position = self.position().left(1)
@@ -57,9 +94,27 @@ class Obstaculo {
         position = game.at(12, 0)
     }
 
-    method colisionoCon(unPersonaje) {
-        return unPersonaje.position() == self.position()
-    } 
+   method colisionar() {
+        colisionado = true
+    }
+
+    method colisionado() {
+        return colisionado
+    }
+
+    method puntosQueAporta() 
+}
+
+class ObstaculoTerrestre inherits Obstaculo {
+    override method puntosQueAporta() {
+        return 10
+    }
+}
+
+class ObstaculoAereo inherits Obstaculo {
+     override method puntosQueAporta() {
+        return 0
+    }
 }
 
 

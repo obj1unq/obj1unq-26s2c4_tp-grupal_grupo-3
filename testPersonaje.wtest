@@ -1,0 +1,30 @@
+import personaje.*
+import animacion.*
+
+describe "Personaje" {
+    const personaje = new Personaje(
+        animacionCorriendo = new Animacion(carpeta = "personaje-1", nombre = "corriendo", cantidad = 10),
+        animacionSaltando = new Animacion(carpeta = "personaje-1", nombre = "saltando", cantidad = 10),
+        animacionDeslizando = new Animacion(carpeta = "personaje-1", nombre = "deslizando", cantidad = 10),
+        posicionEnMenu = game.at(4, 3)
+    )
+
+    test "Al saltar sube una posicion y esta en el aire" {
+        const alturaInicial = personaje.position().y()
+
+        personaje.saltar()
+
+        assert.equals(alturaInicial + 1, personaje.position().y())
+        assert.that(personaje.estaEnElAire())
+
+    }
+
+    test "Al caer baja una posicion" {
+        personaje.saltar()
+        const alturaEnElAire = personaje.position().y()
+
+        personaje.caer()
+
+        assert.equals(alturaEnElAire - 1, personaje.position().y())
+    }
+}

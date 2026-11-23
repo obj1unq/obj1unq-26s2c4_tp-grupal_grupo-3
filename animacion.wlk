@@ -11,8 +11,6 @@ class Animacion {
         frame = (frame + 1) % cantidad
     }
 
-    method terminoUnaVuelta() = frame == 0
-
     method reiniciar() {
         frame = 0
     }
@@ -21,13 +19,13 @@ class Animacion {
         frame = cantidad - 1
     }
 
-    method alTerminar(unFondo) { }
+    method esElUltimo() = frame == cantidad - 1
 }
 
 class Transicion inherits Animacion {
-    const property siguienteNivel
+    var property accionFinal = {}
 
-    override method alTerminar(unFondo) {
-        unFondo.mostrar(siguienteNivel.animacionFondo())
+    override method avanzar() {
+        if (self.esElUltimo()) accionFinal.apply() else super()
     }
 }

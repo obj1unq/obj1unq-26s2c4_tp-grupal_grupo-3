@@ -68,7 +68,7 @@ object cursor {
 }
 
 object juego {
-    var property partida = null
+    var partida = null
 
     method iniciar(personajeElegido) {
         partida = new Partida(personaje = personajeElegido)

@@ -29,11 +29,13 @@ class Personaje {
 
     var estado = corriendo
 
-    method inicializar() {
+    method iniciar() {
+        self.position(game.at(0, 1))
+        game.addVisual(self)
         keyboard.w().onPressDo({self.saltar()})
         keyboard.a().onPressDo({self.deslizar()})
         game.onTick(80, "animacion", {self.avanzarFrame()})
-        game.onTick(500, "gravedad", { self.caer() })
+        self.activarGravedad()
     }
 
     method animacionActual() = estado.animacion(self)
@@ -55,10 +57,17 @@ class Personaje {
     method caer() {
         if (self.estaEnElAire()) {
             position = position.down(1)
-        } else {
-            saltosRealizados = 0
-            self.correr()
-        }
+            if (not self.estaEnElAire()) {self.aterrizar()}
+        } 
+    }
+
+    method aterrizar() {
+        saltosRealizados = 0
+        self.correr()
+    }
+
+    method activarGravedad() {
+        game.onTick(600, "gravedad", { self.caer() })
     }
 
     method estaEnElAire() = position.y() > 1
@@ -70,7 +79,7 @@ class Personaje {
 
     method avanzarFrame() {
         self.animacionActual().avanzar()
-        if (self.animacionActual().terminoUnaVuelta()) estado.alTerminar(self)
+        if (self.animacionActual().esElUltimo()) estado.alTerminar(self)
     }
 
     method quedarEnUltimoFrame() {
@@ -88,6 +97,8 @@ class Personaje {
         position = position.up(1)
         saltosRealizados = saltosRealizados + 1
         self.cambiarEstado(saltando)
+        game.removeTickEvent("gravedad")
+        self.activarGravedad()
     }
 }
 
