@@ -1,0 +1,9 @@
+import animacion.*
+import fondo.*
+describe "Fondo" {
+  test "Muestra la imagen de la animacion que le indican" {
+    const animacion = new Animacion(carpeta = "carpeta", nombre = "prueba", cantidad = 2)
+    fondo.mostrar(animacion)
+    assert.equals(animacion.imagen(), fondo.image())
+  }
+}
