@@ -1,15 +1,21 @@
 import partida.*
-import personajes.*
+import nivel.*
+import personaje.*
 describe "Partida" {
   const partida = new Partida(personaje = personaje1)
-
   test "Arranca con 0 puntos" {
     assert.equals(0, partida.puntos())
   }
 
   test "Suma los puntos que le indican" {
-    partida.sumarPuntos(10)
-    partida.sumarPuntos(5)
+    partida.sumar(10)
+    partida.sumar(5)
+    assert.equals(15, partida.puntos())
+  }
+
+  test "Resta los puntos que le indican" {
+    partida.sumar(20)
+    partida.restar(5)
     assert.equals(15, partida.puntos())
   }
 }

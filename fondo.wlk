@@ -2,7 +2,7 @@ import wollok.game.*
 
 object fondo {
     var animacion = null
-
+  
     method position() = game.origin()
 
     method image() = animacion.imagen()
@@ -14,13 +14,11 @@ object fondo {
 
     method avanzarFrame() {
         animacion.avanzar()
-        if (animacion.terminoUnaVuelta()) animacion.alTerminar(self)
     }
 
     method iniciar(animacionInicial) {
         self.mostrar(animacionInicial)
         game.addVisual(self)
-        game.onTick(80, "fondo", {self.avanzarFrame()})
+        game.onTick(300, "fondo", {self.avanzarFrame()})
     }
-
 }

@@ -1,5 +1,5 @@
 import menu.*
-import personajes.*
+import personaje.*
 
 describe "Menu" {
 
