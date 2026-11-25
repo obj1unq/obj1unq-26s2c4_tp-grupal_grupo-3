@@ -6,6 +6,11 @@ object generadorDeObstaculos {
     var proveedorImagenesAereos = null
     var alEsquivar = null
     var activado = false
+    var tiempoEntreFrames = 250
+
+    method cambiarVelocidadDesplazamiento(milisegundos) {
+        tiempoEntreFrames = milisegundos
+    }
 
     method iniciar(imagenesTerrestres, imagenesAereos, accionAlEsquivar) {
         proveedorImagenesTerrestres = imagenesTerrestres
@@ -13,7 +18,7 @@ object generadorDeObstaculos {
         alEsquivar = accionAlEsquivar
         self.activar()
         self.siguienteObstaculo()
-        game.onTick(300, "moverObstaculos", {
+        game.onTick(tiempoEntreFrames, "moverObstaculos", {
             self.moverYLimpiar()
         })
     }
