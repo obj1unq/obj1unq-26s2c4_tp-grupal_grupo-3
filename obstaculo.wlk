@@ -9,7 +9,15 @@ object generadorDeObstaculos {
     var tiempoEntreFrames = 250
 
     method cambiarVelocidadDesplazamiento(milisegundos) {
+        game.removeTickEvent("moverObstaculos")
         tiempoEntreFrames = milisegundos
+        self.reiniciarOnTick()
+    }
+
+    method reiniciarOnTick() {
+        game.onTick(tiempoEntreFrames, "moverObstaculos", {
+            self.moverYLimpiar()
+        })
     }
 
     method tiempoEntreFrames() {

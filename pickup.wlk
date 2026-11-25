@@ -10,7 +10,15 @@ object generadorDePickUps {
     var tiempoEntreFramesP = 250
 
     method cambiarVelocidadDesplazamientoP(milisegundos) {
+        game.removeTickEvent("moverPickUps")
         tiempoEntreFramesP = milisegundos
+        self.reiniciarOnTickP()
+    }
+
+    method reiniciarOnTickP() {
+        game.onTick(tiempoEntreFramesP, "moverPickUps", {
+            self.moverYLimpiarP()
+        })
     }
 
     method tiempoEntreFramesP() {
@@ -189,7 +197,7 @@ class Turbo inherits Pickup {
    
     override method hacerEfecto(unaPartida) {
         game.say(unaPartida.personaje(), "¡VELOCIDAD AUMENTADA!")
-        unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(100)
+        generadorDeObstaculos.cambiarVelocidadDesplazamiento(100) 
         generadorDePickUps.cambiarVelocidadDesplazamientoP(100) 
     }
 }
@@ -198,7 +206,7 @@ class Freno inherits Pickup {
    
     override method hacerEfecto(unaPartida) {
         game.say(unaPartida.personaje(), "VELOCIDAD NORMAL")
-        unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(250) 
+        generadorDeObstaculos.cambiarVelocidadDesplazamiento(250) 
         generadorDePickUps.cambiarVelocidadDesplazamientoP(250)
     }
 }

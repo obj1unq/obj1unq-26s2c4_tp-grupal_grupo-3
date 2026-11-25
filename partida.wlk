@@ -7,8 +7,6 @@ import pickup.*
 
 class Partida {
     const property personaje
-    const fondoPartida = fondo
-    const generadorObstaculos = generadorDeObstaculos
     const marcador = new Texto(position = game.at(game.width() - 2, game.height() - 1), text = "Puntos: 0")
     var puntos = 0
     var nivel = nivel1
@@ -16,10 +14,10 @@ class Partida {
 
     method iniciar() {
         game.clear()
-        fondoPartida.iniciar(nivel.animacionFondo())
+        fondo.iniciar(nivel.animacionFondo())
         game.addVisual(marcador)
         personaje.iniciar()
-        generadorObstaculos.iniciar(
+        generadorDeObstaculos.iniciar(
             { nivel.imagenesObstaculosTerrestres().anyOne() },
             { nivel.imagenesObstaculosAereos().anyOne() },
             {puntosGanados => self.sumar(puntosGanados)}
@@ -69,9 +67,9 @@ class Partida {
     }
 
     method manejarCambioNivel(animacionTransicion) {
-        generadorObstaculos.detener()
+        generadorDeObstaculos.detener()
         animacionTransicion.accionFinal({ self.comenzarNivel() })
-        fondoPartida.mostrar(animacionTransicion)
+        fondo.mostrar(animacionTransicion)
         nivel = nivel.siguiente()
     }
 
@@ -80,8 +78,8 @@ class Partida {
     }
 
     method comenzarNivel(){
-        generadorObstaculos.activar()
-        fondoPartida.mostrar(nivel.animacionFondo())
+        generadorDeObstaculos.activar()
+        fondo.mostrar(nivel.animacionFondo())
     }
 
     method ganar() {
