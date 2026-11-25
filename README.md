@@ -9,7 +9,7 @@ _(Git Grupal: https://docs.google.com/presentation/d/1-o5zEUfuUT72ea8q2rk8mwHSqM
 - Lopez Luciano Fabricio
 - Goffi Matías
 - Pozzi Luciano
-- etc.
+
 
 ## Capturas
 
@@ -17,7 +17,20 @@ _(Git Grupal: https://docs.google.com/presentation/d/1-o5zEUfuUT72ea8q2rk8mwHSqM
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+-Se elije un personaje
+-Esquivar los obstaculos que van apareciendo en pantalla utilizando o no el salto del personaje
+-Cada obstaculo superado otorga 10 puntos
+-Cada vez que se choca con un obstaculo se restan 10 puntos.
+-Al superar cierta cantidad de puntos ses supera el nivel y se pasa al siguiente
+-Hay en total 3 niveles
+-Además de los obstáculos, existen ciertos ítems que se pueden recoger y que modifican el juego:
+.Bonus de 25 puntos
+.Bonus de 100 puntos
+.Turbo: aumenta la velocidad del juego
+.Freno: revierte el efecto del Turbo
+.Modo dificil: ahora los obstaculos no superados quitan 50 puntos
+.Modo normal: revierte el Modo dificil
+
 
 
 ## Otros
