@@ -1,5 +1,6 @@
 import wollok.game.*
-import obstaculo.*
+import partida.*
+
 
 object generadorDePickUps {
     const pickups = []
@@ -19,7 +20,7 @@ object generadorDePickUps {
     }
 
     method siguientePickUp() {
-        const tiempoAleatorio = (3000..10000).anyOne()
+        const tiempoAleatorio = (8000..10000).anyOne()
         game.schedule(tiempoAleatorio, {
            if (activado) { 
                 self.crearPickUp()
@@ -40,24 +41,48 @@ object generadorDePickUps {
 
     method crearTurbo() {
         self.agregarP(new Turbo(
-            position = game.at(game.width(), [0,1,2].anyOne()),
+            position = game.at(game.width(), [3,1,2].anyOne()),
             image = "turbo.png",
+            colisionado = false
+        ))
+    }
+
+    method crearFreno() {
+        self.agregarP(new Freno(
+            position = game.at(game.width(), [3,1,2].anyOne()),
+            image = "freno.png",
             colisionado = false
         ))
     }
 
     method crearSumaDePuntos() {
         self.agregarP(new SumaDePuntos(
-            position = game.at(game.width(), [0,1,2].anyOne()),
+            position = game.at(game.width(), [1,2,3].anyOne()),
             image = "suma_de_puntos.png",
+            colisionado = false
+        ))
+    }
+
+    method crearSumaEnormeDePuntos() {
+        self.agregarP(new SumaEnormeDePuntos(
+            position = game.at(game.width(), [1,2,3].anyOne()),
+            image = "suma_enorme_de_puntos.png",
             colisionado = false
         ))
     }
 
     method crearModoDificil() {
         self.agregarP(new ModoDificil(
-            position = game.at(game.width(), [0,1,2].anyOne()),
+            position = game.at(game.width(), [3,1,2].anyOne()),
             image = "modo_dificil.png",
+            colisionado = false
+        ))
+    }
+
+    method crearModoNormal() {
+        self.agregarP(new ModoNormal(
+            position = game.at(game.width(), [3,1,2].anyOne()),
+            image = "modo_normal.png",
             colisionado = false
         ))
     }
@@ -100,7 +125,11 @@ class Pickup {
 
     method salioDePantallaP() = self.position().x() < 0
 
-  
+    method serRecogido() {
+        game.removeVisual(self)
+    }
+    
+    method hacerEfecto(unaPartida)
 
    method colisionarP() {
         colisionado = true
@@ -113,15 +142,37 @@ class Pickup {
 }
 
 class SumaDePuntos inherits Pickup {
+   override method hacerEfecto(unaPartida) {
+        unaPartida.sumar(25)
+   }
+}
 
+class SumaEnormeDePuntos inherits Pickup {
+   override method hacerEfecto(unaPartida) {
+        unaPartida.sumar(100)
+   }
 }
 
 class ModoDificil inherits Pickup {
+    override method hacerEfecto(unaPartida) {
+       unaPartida.cambiarPuntajeARestarPorObs(50)
+   }
+}
 
+class ModoNormal inherits Pickup {
+    override method hacerEfecto(unaPartida) {
+       unaPartida.cambiarPuntajeARestarPorObs(10)
+   }
 }
 
 class Turbo inherits Pickup {
    
+    override method hacerEfecto(unaPartida) {unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(150) 
+    }
+}
 
+class Freno inherits Pickup {
    
+    override method hacerEfecto(unaPartida) {unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(250) 
+    }
 }

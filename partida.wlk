@@ -3,14 +3,16 @@ import fondo.*
 import nivel.*
 import obstaculo.*
 import wollok.game.*
+import pickup.*
 
 class Partida {
-    const personaje
+    const property personaje
     const fondoPartida = fondo
     const generadorObstaculos = generadorDeObstaculos
     const marcador = new Texto(position = game.at(game.width() - 2, game.height() - 1), text = "Puntos: 0")
     var puntos = 0
     var nivel = nivel1
+    var property puntajeARestarPorObs = 10
 
     method iniciar() {
         game.clear()
@@ -25,8 +27,17 @@ class Partida {
         game.onCollideDo(personaje, { obstaculo =>
             game.say(personaje, "Opa! Me llevé puesto un obstaculo!")
             obstaculo.colisionar()
-            self.restar(10)
+            self.restar(self.puntajeARestarPorObs())
         })
+        generadorDePickUps.iniciarP()
+        game.onCollideDo(personaje, { pickup =>
+            pickup.serRecogido()
+            pickup.hacerEfecto(self)
+        })
+    }
+
+    method cambiarPuntajeARestarPorObs(puntaje) {
+        puntajeARestarPorObs = puntaje
     }
 
     method puntos() {
