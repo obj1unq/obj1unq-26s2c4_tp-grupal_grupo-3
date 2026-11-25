@@ -35,6 +35,6 @@ _(Git Grupal: https://docs.google.com/presentation/d/1-o5zEUfuUT72ea8q2rk8mwHSqM
 
 ## Otros
 
-- Curso/Facultad
-- Versión de wollok
+- Programación con Objetos I / Universidad Nacional de Quilmes
+- Versión de wollok: 1.1.0
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado.
