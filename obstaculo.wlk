@@ -12,13 +12,16 @@ object generadorDeObstaculos {
         tiempoEntreFrames = milisegundos
     }
 
+    method tiempoEntreFrames() {
+        return tiempoEntreFrames
+    }
     method iniciar(imagenesTerrestres, imagenesAereos, accionAlEsquivar) {
         proveedorImagenesTerrestres = imagenesTerrestres
         proveedorImagenesAereos = imagenesAereos
         alEsquivar = accionAlEsquivar
         self.activar()
         self.siguienteObstaculo()
-        game.onTick(tiempoEntreFrames, "moverObstaculos", {
+        game.onTick(self.tiempoEntreFrames(), "moverObstaculos", {
             self.moverYLimpiar()
         })
     }

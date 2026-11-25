@@ -48,7 +48,7 @@ class Texto {
 
 const titulo = new Texto(
     position = game.at(6, 4),
-    text = "ENDLESS RUNNER"
+    text = "WORLD RUNNER"
 )
 
 const ayudaElegir = new Texto(

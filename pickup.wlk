@@ -1,6 +1,8 @@
 import wollok.game.*
 import partida.*
 import menu.*
+import obstaculo.*
+import personaje.*
 
 object generadorDePickUps {
     const pickups = []
@@ -11,10 +13,14 @@ object generadorDePickUps {
         tiempoEntreFramesP = milisegundos
     }
 
+    method tiempoEntreFramesP() {
+        return tiempoEntreFramesP
+    }
+
     method iniciarP() {
         self.activarP()
         self.siguientePickUp()
-        game.onTick(tiempoEntreFramesP, "moverPickUps", {
+        game.onTick(self.tiempoEntreFramesP(), "moverPickUps", {
             self.moverYLimpiarP()
         })
     }
@@ -65,7 +71,7 @@ object generadorDePickUps {
 
     method crearSumaDePuntos() {
         self.agregarP(new SumaDePuntos(
-            position = game.at(game.width(), [1,2,3].anyOne()),
+            position = game.at(game.width(), [2,3].anyOne()),
             image = "suma_de_puntos.png",
             colisionado = false
         ))
@@ -73,7 +79,7 @@ object generadorDePickUps {
 
     method crearSumaEnormeDePuntos() {
         self.agregarP(new SumaEnormeDePuntos(
-            position = game.at(game.width(), [1,2,3].anyOne()),
+            position = game.at(game.width(),3),
             image = "suma_enorme_de_puntos.png",
             colisionado = false
         ))
@@ -169,7 +175,6 @@ class ModoDificil inherits Pickup {
     override method hacerEfecto(unaPartida) {
        game.say(unaPartida.personaje(), "¡MODO DIFICIL ACTIVADO!")
        unaPartida.cambiarPuntajeARestarPorObs(50)
-       game.addVisual(self.indicadorModoDificil())
    }
 }
 
@@ -177,7 +182,6 @@ class ModoNormal inherits Pickup {
     override method hacerEfecto(unaPartida) {
         game.say(unaPartida.personaje(), "MODO NORMAL")
        unaPartida.cambiarPuntajeARestarPorObs(10)
-       game.removeVisual(self.indicadorModoDificil())
    }
 }
 
@@ -185,8 +189,8 @@ class Turbo inherits Pickup {
    
     override method hacerEfecto(unaPartida) {
         game.say(unaPartida.personaje(), "¡VELOCIDAD AUMENTADA!")
-        unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(150) 
-        game.addVisual(self.indicadorTurbo())
+        unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(100)
+        generadorDePickUps.cambiarVelocidadDesplazamientoP(100) 
     }
 }
 
@@ -195,6 +199,6 @@ class Freno inherits Pickup {
     override method hacerEfecto(unaPartida) {
         game.say(unaPartida.personaje(), "VELOCIDAD NORMAL")
         unaPartida.generadorDeObstaculos().cambiarVelocidadDesplazamiento(250) 
-        game.removeVisual(self.indicadorTurbo())
+        generadorDePickUps.cambiarVelocidadDesplazamientoP(250)
     }
 }
