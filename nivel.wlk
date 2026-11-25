@@ -37,7 +37,7 @@ const nivel1 = new NivelIntermedio(
     animacionTransicion = new Transicion(carpeta = "nivel-1-bosque/transicion", nombre = "transicion", cantidad = 10),
     imagenesObstaculosTerrestres = ["nivel-1-bosque/obstaculos/terrestres/stone.png", "nivel-1-bosque/obstaculos/terrestres/crate.png", "nivel-1-bosque/obstaculos/terrestres/mushroom.png", "nivel-1-bosque/obstaculos/terrestres/bush.png"],
     imagenesObstaculosAereos = ["nivel-1-bosque/obstaculos/aereos/ave.gif"],
-    puntosParaPasar = 100,
+    puntosParaPasar = 200,
     siguienteNivel = nivel2
 )
 
@@ -46,7 +46,7 @@ const nivel2 = new NivelIntermedio(
     animacionTransicion = new Transicion(carpeta = "nivel-2-desierto/transicion", nombre = "transicion", cantidad = 10),
     imagenesObstaculosTerrestres = ["nivel-2-desierto/obstaculos/terrestres/stone.png", "nivel-2-desierto/obstaculos/terrestres/cactus_1.png", "nivel-2-desierto/obstaculos/terrestres/skeleton.png", "nivel-2-desierto/obstaculos/terrestres/cactus_2.png"],
     imagenesObstaculosAereos = ["nivel-2-desierto/obstaculos/aereos/buitre.gif"],
-    puntosParaPasar = 200,
+    puntosParaPasar = 400,
     siguienteNivel = nivel3
 )
 
@@ -54,5 +54,5 @@ const nivel3 = new UltimoNivel(
     animacionFondo = new Animacion(carpeta = "nivel-3-cementerio/fondo", nombre = "fondo", cantidad = 10),
     imagenesObstaculosTerrestres = ["nivel-3-cementerio/obstaculos/terrestres/tomb-stone-1.png", "nivel-3-cementerio/obstaculos/terrestres/skeleton.png", "nivel-3-cementerio/obstaculos/terrestres/tomb-stone-2.png"],
     imagenesObstaculosAereos = ["nivel-3-cementerio/obstaculos/aereos/murcielago.gif"],
-    puntosParaPasar = 300
+    puntosParaPasar = 600
 )
